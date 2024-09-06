@@ -1,0 +1,35 @@
+/* styles.css */
+
+/* Navbar styles */
+nav {
+    background-color: brown;
+    padding: 10px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Header styles */
+header {
+    text-align: center;
+    margin-top: 20px;
+}
+
+h1 {
+    margin: 20px 0;
+}

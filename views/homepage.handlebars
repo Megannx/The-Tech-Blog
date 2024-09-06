@@ -1,0 +1,35 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Tech Blog</title>
+      <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>The Tech Blog</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/login">Log In</a></li>
+                <li><a href="/logout">Log Out</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Recent Blog Posts</h2>
+        <ul>
+            {{#each blogPosts}}
+                <li>
+                    <h3>{{title}}</h3>
+                    <p>Posted on {{date}}</p>
+                </li>
+            {{/each}}
+        </ul>
+    </main>
+    <footer>
+        <p>&copy; 2024 My Blog. All rights reserved.</p>
+    </footer>
+</body>
+</html>
