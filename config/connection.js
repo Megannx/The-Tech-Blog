@@ -16,8 +16,6 @@ if (process.env.DB_URL) {
   );
 }
 
-const sequelize = require('./config/connection');
-
 sequelize.authenticate()
     .then(() => console.log('Database connected successfully'))
     .catch(err => console.error('Database connection error:', err));
