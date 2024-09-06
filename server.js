@@ -54,11 +54,6 @@ app.use((err, req, res, next) => {
 
 app.use(express.static('public'));
 
-app.use((err, req, res, next) => {
-    console.error('Error message:', err.message);  // Logs the error message to the console
-    console.error('Error stack:', err.stack);  // Logs the error stack to the console
-    res.status(500).send('Internal Server Error!');  // Sends a user-friendly message
-});
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
