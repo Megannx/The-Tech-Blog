@@ -1,9 +1,65 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Tech Blog</title>
-      <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5dc; /* Light beige background */
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Adds shadow for 3D effect */
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center; /* Centers nav items */
+        }
+
+        nav ul li {
+            margin: 0 15px; /* Spacing between nav items */
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -19,7 +75,7 @@
     </header>
     <main>
         <h2>Recent Blog Posts</h2>
-        <ul>
+        <ul id="blog-posts-list">
             {{#each blogPosts}}
                 <li>
                     <h3>{{title}}</h3>
@@ -28,8 +84,21 @@
             {{/each}}
         </ul>
     </main>
-    <footer>
-        <p>&copy; 2024 My Blog. All rights reserved.</p>
-    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/blog-posts')
+                .then(response => response.json())
+                .then(blogPosts => {
+                    const listElement = document.getElementById('blog-posts-list');
+                    listElement.innerHTML = blogPosts.map(post => `
+                        <li>
+                            <h3>${post.title}</h3>
+                            <p>Posted on ${new Date(post.date).toLocaleDateString()}</p>
+                        </li>
+                    `).join('');
+                })
+                .catch(error => console.error('Error fetching blog posts:', error));
+        });
+    </script>
 </body>
 </html>
