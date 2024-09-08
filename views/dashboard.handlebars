@@ -1,10 +1,275 @@
-{{#each users as |user| }}
-<div class="row align-center mb-5">
-  <div class="col-md-6">
-    <h2>{{{get_emoji}}} {{user.name}}</h2>
-  </div>
-  <div class="col-md-6">
-    <h3><a href="mailto:{{user.email}}">{{user.email}}</a></h3>
-  </div>
-</div>
-{{/each}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Dashboard</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5dc;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            background-color: #555;
+            border-radius: 5px;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .col-md-6 {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .align-center {
+            display: flex;
+            justify-content: center;
+        }
+
+        .mb-5 {
+            margin-bottom: 2rem;
+        }
+
+        .btn-add-post {
+            display: inline-block;
+            color: #fff;
+            text-decoration: none;
+            background-color: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            margin: 20px auto 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-add-post:hover {
+            background-color: #333;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-add-post:active {
+            background-color: #222;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .modal-header, .modal-body, .modal-footer {
+            padding: 10px;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #eee;
+            text-align: right;
+        }
+
+        .modal-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .modal-close:hover {
+            color: black;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .form-group textarea {
+            height: 100px;
+        }
+
+        .btn-submit {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+        <h1>Your Dashboard</h1>
+    </header>
+    <main>
+        {{#each users as |user|}}
+        <div class="row align-center mb-5">
+            <div class="col-md-6">
+                <h2>{{user.name}}</h2>
+                <span>{{user.get_emoji}}</span>
+            </div>
+            <div class="col-md-6">
+                <h3><a href="mailto:{{user.email}}">{{user.email}}</a></h3>
+            </div>
+        </div>
+        {{/each}}
+        <a href="#" class="btn-add-post" id="openModal">Add New Post</a>
+    </main>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-close" id="closeModal">&times;</span>
+                <h2>Add New Blog Post</h2>
+            </div>
+            <div class="modal-body">
+                <form id="blogForm">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn-submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("openModal").addEventListener("click", function(event) {
+            event.preventDefault();
+            document.getElementById("myModal").style.display = "block";
+        });
+
+        document.getElementById("closeModal").addEventListener("click", function() {
+            document.getElementById("myModal").style.display = "none";
+        });
+
+        window.addEventListener("click", function(event) {
+            if (event.target === document.getElementById("myModal")) {
+                document.getElementById("myModal").style.display = "none";
+            }
+        });
+
+        document.getElementById("blogForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const title = document.getElementById("title").value;
+            const description = document.getElementById("description").value;
+
+            try {
+                const response = await fetch('/api/posts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ title, description }),
+                });
+
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    console.error('Failed to create post');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+
+            document.getElementById("myModal").style.display = "none";
+            this.reset();
+        });
+    </script>
+</body>
+</html>
