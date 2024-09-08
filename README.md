@@ -5,8 +5,7 @@ AS A developer who writes about tech
 I WANT a CMS-style blog site
 SO THAT I can publish articles, blog posts, and my thoughts and opinions
 
-## Screenshot of Application
+## Video of Application
 
-![image](https://github.com/user-attachments/assets/953dd017-cc16-42f2-9843-3e17597a4873)
+https://github.com/user-attachments/assets/ef69c1d8-45e4-4a14-95f2-f927b0121e36
 
-## Deployed Link
